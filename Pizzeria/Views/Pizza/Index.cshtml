@@ -1,0 +1,58 @@
+﻿@model List<Pizza>
+@{
+    
+}
+<div class="text-center">
+    <h1 class="display-4 mb-5">Pizzeria</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Nome</th>
+                <th scope="col">Descrizione</th>
+                <th scope="col">Foto</th>
+                <th scope="col">Prezzo</th>
+                <th></th>
+                <th></th>
+                <th></th>
+
+            </tr>
+        </thead>
+        <tbody>
+           @if ((Model.Count <= 0) || (Model == null))
+            {
+                <div><h2>Non ci sono Pizze Disponibili</h2></div>
+            }
+            else
+            {
+                @foreach (Pizza item in Model)
+                {
+                    <tr>
+                        <th>@item.Name</th>
+                        <td>@item.Description </td>
+                        <td> <img style="height:60px; width: 80px;" src="@item.image"></td>
+                        <td>@item.price €</td>
+                        <td><a class="btn btn-danger" href="@Url.Action("Details", "Pizza", new {id=item.Id})">Show</a></td>
+                        @if(User.IsInRole("Admin"))
+                        {
+                            <td><a class="btn btn-warning" href="@Url.Action("Update", "Pizza", new {id=item.Id})">Edit</a></td>
+                            <td>
+                                <form asp-controller="Pizza" asp-action="Delete" asp-route-id="@item.Id" method="post">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-dark">Delete</button>
+                                </form>
+                            </td>
+                        }
+                        
+
+                    </tr>
+                }
+            }
+
+
+
+
+
+        </tbody>
+    </table>
+    <a class="btn btn-dark" href="@Url.Action("Create", "Pizza")">Crea la tua pizza</a>
+</div>

@@ -1,0 +1,15 @@
+﻿@model Pizza
+@{
+    using PizzaContext db = new PizzaContext();
+    var categoryID = @Model.CategoryId;
+    var category = db.Categories.FirstOrDefault(c => c.Id == categoryID);
+}
+
+
+<h1 class="mb-3 text-danger">@Model.Name</h1>
+<img class="mb-2" src="@Model.image" style="width: 700px; height: 550px;">
+@*<img style="height:60px; width: 80px;" src='@item.image'>*@
+<div class="mb-2 fw-bolder">@category.Name</div>
+<div><p>@Model.Description</p></div>
+<h5 class="fw-semibold mb-3">@Model.price €</h5>
+<di class="mb-3"><a class="btn btn-info" href="@Url.Action("Index", "Pizza")">Return Index</a></di>
